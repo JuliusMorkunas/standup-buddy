@@ -3,16 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
 import { Plus, RotateCcw, Edit3, Check, X, Star, Trash2 } from 'lucide-react'
 
-const DEFAULT_TEAM_MEMBERS = [
-  "Julius",
-  "Abhinav",
-  "Asta",
-  "Artūras",
-  "Mantas",
-  "Navaneeth",
-  "Neringa",
-  "Aleksandr"
-]
+const DEFAULT_TEAM_MEMBERS = ["Jane", "John"]
 
 const TEAM_PRESETS = {
   Orion: [
