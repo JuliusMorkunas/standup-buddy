@@ -34,7 +34,7 @@ const TEAM_PRESETS = {
     "Ripal",
     "Stephen",
     "Sudhir",
-    "Julius"
+    "Julius B"
   ]
 }
 const MAX_TEAM_MEMBERS = 12
@@ -187,10 +187,10 @@ function StandupBuddy() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-8"
+          className="text-center mb-16"
         >
           <h1 className="text-5xl font-bold text-primary mb-2">Standup Buddy</h1>
-          <p className="text-lg text-gray-600">A fun way to randomize standup order</p>
+          <p className="text-md text-gray-600">A fun way to randomize standup order</p>
         </motion.div>
 
         <motion.div
@@ -201,7 +201,7 @@ function StandupBuddy() {
         >
           {/* Current Speaker Display */}
           <AnimatePresence mode="wait">
-            {currentSpeaker && (
+            {currentSpeaker ? (
               <motion.div
                 key={isSelecting ? "selecting" : currentSpeaker}
                 initial={{ opacity: 0, scale: 0.8 }}
@@ -214,7 +214,7 @@ function StandupBuddy() {
                 }}
                 className="text-center mb-8"
               >
-                <h2 className="text-3xl font-bold text-primary mb-2">{currentSpeaker}</h2>
+                <h2 className="text-5xl font-bold text-primary mb-2">{currentSpeaker}</h2>
                 <p className="text-gray-600">It's your turn to speak!</p>
                 {isSelecting && (
                   <motion.div
@@ -226,11 +226,23 @@ function StandupBuddy() {
                   </motion.div>
                 )}
               </motion.div>
+            ) : (
+              <motion.div
+                key="no-speaker"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.3 }}
+                className="text-center mb-8"
+              >
+                <h2 className="text-5xl font-bold text-primary mb-2">...</h2>
+                <p className="text-gray-500">We will start soon.</p>
+              </motion.div>
             )}
           </AnimatePresence>
 
           {/* Action Buttons */}
-          <div className="mt-8 space-y-4">
+          <div className="space-y-3">
             {/* Show Select Next Person button only if there are available members */}
             {teamMembers.filter(member =>
               !selectedMembers.includes(member) && !excludedMembers.includes(member)
@@ -271,8 +283,8 @@ function StandupBuddy() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="mt-4"
+          transition={{ duration: 0.5, delay: 0.3 }}
+          className="mt-5"
         >
           <div className="flex flex-wrap gap-2 justify-center mb-4">
             {teamMembers.map((member) => (
@@ -373,18 +385,19 @@ function StandupBuddy() {
                 </div>
               </motion.div>
             ) : (
-              <div className="flex flex-col items-center gap-3">
-                {/* Customize Team Button */}
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={() => setIsEditing(true)}
-                  className="flex items-center gap-1 px-3 py-1.5 bg-white/50 hover:bg-white/60 text-secondary rounded-full text-sm font-medium transition-all duration-200"
-                >
-                  <Edit3 className="w-3.5 h-3.5" />
-                  Customize Team
-                </motion.button>
-
+              <div>
+                <div className="flex flex-col items-center mb-8">
+                  {/* Customize Team Button */}
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={() => setIsEditing(true)}
+                    className="flex items-center gap-1 px-3 py-1.5 bg-white/50 hover:bg-white/60 text-secondary rounded-full text-sm font-medium transition-all duration-200"
+                  >
+                    <Edit3 className="w-3.5 h-3.5" />
+                    Customize Team
+                  </motion.button>
+                </div>
                 {/* Team Preset Buttons */}
                 <div className="flex flex-col items-center gap-2">
                   <p className="text-xs text-gray-500 font-medium">Load Team Preset:</p>
@@ -412,8 +425,8 @@ function StandupBuddy() {
             )}
           </div>
         </motion.div>
-      </div>
-    </div>
+      </div >
+    </div >
   )
 }
 
