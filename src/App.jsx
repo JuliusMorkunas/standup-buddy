@@ -47,7 +47,6 @@ function StandupBuddy() {
   const [isSelecting, setIsSelecting] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   const [newMember, setNewMember] = useState('')
-  const [showError, setShowError] = useState(false)
 
   useEffect(() => {
     const saved = localStorage.getItem('teamMembers')
@@ -117,10 +116,6 @@ function StandupBuddy() {
     if (newMember.trim() && teamMembers.length < MAX_TEAM_MEMBERS) {
       setTeamMembers([...teamMembers, newMember.trim()])
       setNewMember('')
-      setShowError(false)
-    } else if (teamMembers.length >= MAX_TEAM_MEMBERS) {
-      setShowError(true)
-      setTimeout(() => setShowError(false), 3000)
     }
   }
 
@@ -364,32 +359,17 @@ function StandupBuddy() {
                     </button>
                   </div>
 
-                  <div className="relative">
-                    <AnimatePresence>
-                      {showError && (
-                        <motion.div
-                          initial={{ opacity: 0, y: -10 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -10 }}
-                          className="absolute -top-8 right-0 bg-amber-50 text-amber-700 text-xs px-2 py-1 rounded-md flex items-center gap-1 shadow-sm whitespace-nowrap"
-                        >
-                          <Star className="w-3 h-3" />
-                          At least one team member required
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                    <button
-                      onClick={() => setIsEditing(false)}
-                      className={`px-3 py-1.5 ${teamMembers.length === 0
-                        ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-green-500 hover:bg-green-600"
-                        } text-white rounded-lg text-sm flex items-center gap-1 transition-colors`}
-                      disabled={teamMembers.length === 0}
-                    >
-                      <Check className="w-3.5 h-3.5" />
-                      Done
-                    </button>
-                  </div>
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className={`px-3 py-1.5 ${teamMembers.length === 0
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-green-500 hover:bg-green-600"
+                      } text-white rounded-lg text-sm flex items-center gap-1 transition-colors`}
+                    disabled={teamMembers.length === 0}
+                  >
+                    <Check className="w-3.5 h-3.5" />
+                    Done
+                  </button>
                 </div>
               </motion.div>
             ) : (
