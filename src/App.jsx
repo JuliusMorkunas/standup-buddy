@@ -181,7 +181,7 @@ function StandupBuddy() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-50 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-50 flex flex-col items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -189,7 +189,7 @@ function StandupBuddy() {
           transition={{ duration: 0.5 }}
           className="text-center"
         >
-          <h1 className="text-4xl font-bold text-primary mb-2 flex items-center justify-center gap-2"><Sparkles className="w-8 h-8" /> Standup Buddy</h1>
+          <h1 className="text-4xl font-bold text-primary mb-2 flex items-center justify-center gap-2"><Sparkles className="w-8 h-8" />Standup Buddy</h1>
           <p className="text-secondary/80">Who's up next?</p>
         </motion.div>
         <motion.div
