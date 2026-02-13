@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
-import { Plus, RotateCcw, Edit3, Check, X, Star, Trash2 } from 'lucide-react'
+import { Plus, RotateCcw, Check, X, PartyPopper, Sparkles, SquarePen, Star, Trash2 } from 'lucide-react'
 
 const DEFAULT_TEAM_MEMBERS = ["Jane", "John"]
 
@@ -182,22 +182,21 @@ function StandupBuddy() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl">
+      <div className="max-w-md w-full space-y-8">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="text-center mb-16"
+          className="text-center"
         >
-          <h1 className="text-5xl font-bold text-primary mb-2">Standup Buddy</h1>
-          <p className="text-md text-gray-600">A fun way to randomize standup order</p>
+          <h1 className="text-4xl font-bold text-primary mb-2 flex items-center justify-center gap-2"><Sparkles className="w-8 h-8" /> Standup Buddy</h1>
+          <p className="text-secondary/80">Who's up next?</p>
         </motion.div>
-
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-white/70 backdrop-blur-sm rounded-2xl shadow-xl p-8"
+          className="bg-white/40 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-white/20"
         >
           {/* Current Speaker Display */}
           <AnimatePresence mode="wait">
@@ -212,10 +211,25 @@ function StandupBuddy() {
                   duration: isSelecting ? 0.1 : 0.5,
                   stiffness: isSelecting ? 400 : 300
                 }}
-                className="text-center mb-8"
+                className="text-center space-y-4"
               >
-                <h2 className="text-5xl font-bold text-primary mb-2">{currentSpeaker}</h2>
-                <p className="text-gray-600">It's your turn to speak!</p>
+                <p className="text-sm text-primary/60">Next up:</p>
+                <h2 className="text-5xl font-bold text-primary">
+                  {currentSpeaker}
+                </h2>
+                <motion.div
+                  animate={{ 
+                    translateY: -1, 
+                    rotate: [0, -1.5, 0, 1.5, 0]
+                  }}
+                  transition={{ 
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: [0.25, 0.1, 0.25, 1]
+                  }}
+                >
+                  <PartyPopper className="w-8 h-8 mx-auto text-yellow-500" />
+                </motion.div>
                 {isSelecting && (
                   <motion.div
                     animate={{ rotate: 360 }}
@@ -226,23 +240,11 @@ function StandupBuddy() {
                   </motion.div>
                 )}
               </motion.div>
-            ) : (
-              <motion.div
-                key="no-speaker"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="text-center mb-8"
-              >
-                <h2 className="text-5xl font-bold text-primary mb-2">...</h2>
-                <p className="text-gray-500">We will start soon.</p>
-              </motion.div>
-            )}
+            ) : null}
           </AnimatePresence>
 
           {/* Action Buttons */}
-          <div className="space-y-3">
+          <div className="mt-8 space-y-4">
             {/* Show Select Next Person button only if there are available members */}
             {teamMembers.filter(member =>
               !selectedMembers.includes(member) && !excludedMembers.includes(member)
@@ -394,7 +396,7 @@ function StandupBuddy() {
                     onClick={() => setIsEditing(true)}
                     className="flex items-center gap-1 px-3 py-1.5 bg-white/50 hover:bg-white/60 text-secondary rounded-full text-sm font-medium transition-all duration-200"
                   >
-                    <Edit3 className="w-3.5 h-3.5" />
+                    <SquarePen className="w-3.5 h-3.5" />
                     Customize Team
                   </motion.button>
                 </div>
