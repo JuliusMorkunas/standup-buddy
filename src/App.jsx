@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import confetti from 'canvas-confetti'
-import { Plus, RotateCcw, Check, X, PartyPopper, Sparkles, SquarePen, Star, Trash2 } from 'lucide-react'
+import { Plus, RotateCcw, Check, X, PartyPopper, Sparkles, SquarePen, Trash2 } from 'lucide-react'
 
 const DEFAULT_TEAM_MEMBERS = ["Jane", "John"]
 
@@ -103,7 +103,7 @@ function StandupBuddy() {
           origin: { x: 0.8, y: 0.6 }
         })
       }, 100)
-    }, 800)
+    }, 1200) // Match live site timing
   }
 
   const resetSelection = () => {
@@ -200,45 +200,55 @@ function StandupBuddy() {
         >
           {/* Current Speaker Display */}
           <AnimatePresence mode="wait">
-            {currentSpeaker ? (
+            {isSelecting ? (
               <motion.div
-                key={isSelecting ? "selecting" : currentSpeaker}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{
-                  type: "spring",
-                  duration: isSelecting ? 0.1 : 0.5,
-                  stiffness: isSelecting ? 400 : 300
-                }}
+                key="selecting"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="text-center py-8"
+              >
+                <motion.div
+                  animate={{ scale: [1, 1.2, 1], rotate: [0, 360] }}
+                  transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                >
+                  <Sparkles className="w-12 h-12 text-primary" />
+                </motion.div>
+              </motion.div>
+            ) : currentSpeaker ? (
+              <motion.div
+                key={currentSpeaker}
+                initial={{ opacity: 0, scale: 0.5, rotate: -10 }}
+                animate={{ opacity: 1, scale: 1, rotate: 0 }}
+                exit={{ opacity: 0, scale: 0.5, rotate: 10 }}
+                transition={{ type: "spring", duration: 0.8, bounce: 0.5 }}
                 className="text-center space-y-4"
               >
                 <p className="text-sm text-primary/60">Next up:</p>
-                <h2 className="text-5xl font-bold text-primary">
+                <motion.h2 
+                  className="text-5xl font-bold text-primary"
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ 
+                    duration: 2, 
+                    repeat: Infinity, 
+                    ease: "easeInOut"
+                  }}
+                >
                   {currentSpeaker}
-                </h2>
+                </motion.h2>
                 <motion.div
                   animate={{ 
-                    translateY: -1, 
-                    rotate: [0, -1.5, 0, 1.5, 0]
+                    y: [0, -10, 0], 
+                    rotate: [0, -10, 10, 0]
                   }}
                   transition={{ 
-                    duration: 3,
+                    duration: 2,
                     repeat: Infinity,
-                    ease: [0.25, 0.1, 0.25, 1]
+                    ease: "easeInOut"
                   }}
                 >
                   <PartyPopper className="w-8 h-8 mx-auto text-yellow-500" />
                 </motion.div>
-                {isSelecting && (
-                  <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                    className="inline-block mt-4"
-                  >
-                    <Star className="w-8 h-8 mx-auto text-yellow-500" />
-                  </motion.div>
-                )}
               </motion.div>
             ) : null}
           </AnimatePresence>
